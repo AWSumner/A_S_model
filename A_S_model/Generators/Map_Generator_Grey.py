@@ -39,10 +39,11 @@ width  =im.size[0] #x dimension in pixels
 height =im.size[1] #y dimension in pixels
 'Note: pix[x,y] is the RGB value of the pixel at a point (x,y)'
 print(pix[258,0])
-'''
+
+
 'Map construction'
-c=0.708661 #this is the conversion constant between the grey scale and the corrisponding angle 
-# tuned so a maxium grey scale minus one (254) produces 180 deg. and also represents our resolution 
+c=0.024737 #this is the conversion constant between the grey scale and the corrisponding angle 
+# tuned so a maxium grey scale minus one (254) produces two pi and also represents our resolution 
 
 print(pix[700,270])
 total_map=[] #reset for total map array
@@ -60,7 +61,7 @@ for n in range(0,height):
         row.append(element) #adds the element to the row
         
     total_map.append(row) #adds the row to the final array
-'''
+
 '''
 'Writing to a file'
 
