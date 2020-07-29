@@ -28,4 +28,13 @@ with open('protagonist.csv', newline='') as f:
     reader = csv.reader(f)
     data = list(reader)
 
-print(data)
+
+
+x=[False,0]
+
+if x==False: 
+    print('yes')
+    
+else: 
+    print('no')
+

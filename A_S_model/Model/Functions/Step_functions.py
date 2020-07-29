@@ -14,21 +14,25 @@ import math
 def Boltzmann(G):
     kbT=4.2 #pN/nm at room temperature
     Z=sum(([math.exp(-g/(kbT)) for g in G]))
-    B=[(1/Z)*math.exp(-g/(kbT)) for g in G]
-    #print(B)
-    return B
-
+    if Z==0:
+        return('No')
+    else:
+        B=[(1/Z)*math.exp(-g/(kbT)) for g in G]
+        #print(B)
+        return B
 
 #probability function
 #postion shaple is [[],[], etc.]
 def Landing_probability(Positions,Potentials):
     
     B=Boltzmann(Potentials)
-    total=sum(B)
-    weighted_potentials=[b/total for b in B]
-   # print(total)
-    p=random.choices(Positions,weights=weighted_potentials,k=1)
-    return p
+    if B=='No':
+        return('Error in Boltzmann')
+    else:
+        total=sum(B)
+        weighted_potentials=[b/total for b in B]
+        p=random.choices(Positions,weights=weighted_potentials,k=1)
+        return p
 
 def Potentials(Theta1,Theta2,Position,Attachment):
     kf=0.16 #pN/nm
@@ -39,5 +43,3 @@ def Potentials(Theta1,Theta2,Position,Attachment):
     G=Torsion+Spring
     return(G)
 
-
-    
