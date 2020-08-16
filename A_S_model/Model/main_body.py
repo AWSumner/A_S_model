@@ -11,11 +11,13 @@ import math
 import random
 import os.path 
 import csv 
+import time
+start_time = time.time() #added a timer because it is fun
 
 'Import my functions '
-from Functions import Step_functions as SF
+from Functions import Stepping_Functions as SF
 from Functions import Dwell as D
-from Functions import starting_conditions as S_C
+from Functions import Starting_conditions as S_C
 
 'File choices'
 Map_name='Test_072820_1.csv' #name of map file
@@ -31,9 +33,9 @@ second_time=60 #s, total amout of time the model will run over in seconds
               #(converted to milisecond time intervals further down)
 
 'Class definition'
-class motor(): 
+class motor(): #creates a class of motor
     #shared properties in all motors 
-    Al=36 #nm #arm length
+    
     
     #unique properties for each instance of motor()
     def __init__(self,Head_1,Head_2,Attachment): 
@@ -42,6 +44,17 @@ class motor():
         self.At=Attachment #location of the connection to the bead
         
 
+
+
+class MVI(motor): #Myosin VI motor
+    '''Makes a class that inherets motors and can have additional properies that are unique to myosin VI
+        This extension will allow for possible growth to different motors
+    '''
+    
+    Al=36 #nm #arm length
+
+    
+
 'Opening map'
 map_path='./Reference/Maps/' #Path to the map file note: code needs to be run in A_S_model folder (see top right)
 Map_file=os.path.join(map_path,Map_name) #adds the name to the path
@@ -49,9 +62,10 @@ Map_file=os.path.join(map_path,Map_name) #adds the name to the path
 with open(Map_file, newline='') as f:
     reader = csv.reader(f)
     Map = list(reader) #creates an array Map that holds the values for each pixel. 
+    
 
 'Conditions creation'
-loc=S_C.Starting_Location(placement_coordinates,Map)
+
 
 
 
@@ -74,7 +88,15 @@ for i in range(number_of_motors): #creates a motors based on the number given at
 'Core code '
 total_time=second_time*1E3 #converitng the time above in seconds to miliseconds to match our timesteps
 
-
+for i in range(total_time):
+    D=D.Dewll
+    
+    if D:
+        print('hello')
+    else: 
+        print('hi')
+        
+    
 
 
 
@@ -87,7 +109,10 @@ total_time=second_time*1E3 #converitng the time above in seconds to miliseconds 
 
 
 print('Done')
+print("--- %s seconds ---" % (time.time() - start_time))
+
 'Testing '
+
 
 '''
 'See possible imports'
