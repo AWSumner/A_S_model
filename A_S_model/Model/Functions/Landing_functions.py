@@ -33,12 +33,13 @@ def Landing_probability(Positions,Potentials):
         p=random.choices(Positions,weights=weighted_potentials,k=1)
         return p
 
-def Potentials(Theta1,Theta2,Position,Attachment):
-    kf=0.16 #pN/nm
-    ks=0.2 #pN/nm
+def MIV_Potential(Theta1,Theta2,Position,Attachment,kf,ks):
+    #kf=0.16 #pN/nm
+    #ks=0.2 #pN/nm
     L=16 #nm
     Torsion=(kf*(L**2)/2)*(Theta1**2+Theta2**2)
     Spring=(ks/2)*((Position[0]-Attachment[0])**2+(Position[1]-Attachment[1])**2)
     G=Torsion+Spring
     return(G)
 
+ 
