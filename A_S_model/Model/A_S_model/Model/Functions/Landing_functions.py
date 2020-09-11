@@ -36,10 +36,19 @@ def Landing_probability(Positions,Potentials):
 def MIV_Potential(Theta1,Theta2,Position,Attachment,kf,ks):
     #kf=0.16 #pN/nm
     #ks=0.2 #pN/nm
-    L=16 #nm
-    Torsion=(kf*(L**2)/2)*(Theta1**2+Theta2**2)
-    Spring=(ks/2)*((Position[0]-Attachment[0])**2+(Position[1]-Attachment[1])**2)
-    G=Torsion+Spring
+    stall_check=ks*((Position[0]-Attachment[0])**2+(Position[1]-Attachment[1])**2)**.5 #calculates the force 
+    
+    if stall_check >= 2: #Checks if the position would exceed the stall force and if so give it a potental that will make the boltzmann return zero so it cannot land there
+        G=1e20000 #biiiig number
+        
+    else:   #if it doesn't exceed stall force
+        L=16 #nm
+        Torsion=(kf*(L**2)/2)*(Theta1**2+Theta2**2)
+        Spring=(ks/2)*((Position[0]-Attachment[0])**2+(Position[1]-Attachment[1])**2)
+        G=Torsion+Spring
+        
     return(G)
 
- 
+
+
+

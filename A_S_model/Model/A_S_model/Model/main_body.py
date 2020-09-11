@@ -38,7 +38,10 @@ error=4 #the value of the +- bars on the search range
 
 'Physical constants'
 kf=0.16 #pN/nm: the k value for the torsion force
-ks=0.2 #pN/nm: the k value for the spring
+ks=0.2  #pN/nm: the k value for the spring
+ktrap=0.02 #pN/nm: the k value for the optical trap
+
+
 
 'Class definition'
 class protien_motor(): #creates a class of motor
@@ -75,8 +78,9 @@ with open(Map_file, newline='') as f:
 Lstep=MVI.Al #step length
 Lspring=MVI.Sl#rest length of spring
 Heads=SC.Heads_Placement(placement_coordinates,Map,Lstep,error) #decides the location of the two starting head locations
-Bead_attachments=SC.Bead_Placement(Heads[0], Heads[1], number_of_motors, radial_placement,bead_radius, Lspring, Lstep)[0] #creates the list of bead attachment points
-
+Bead=SC.Bead_Placement(Heads[0], Heads[1], number_of_motors, radial_placement,bead_radius, Lspring, Lstep) #creates the list of bead attachment points and the location of it's center of mass
+Bead_attachments=Bead[0] #pulls out the list of attachement points
+Bead_center=Bead[2] #pulls out the center of mass of the bead
 
 
 'Creating motors'
@@ -145,7 +149,7 @@ for i in range(total_time):
               print('hi')
         
     
-    '"Force" & Bead update section'
+    'Forces from the springs'
     dx_list=[]
     dy_list=[]
     for motor in motor_list:   
@@ -161,17 +165,44 @@ for i in range(total_time):
         dy_list.append(dx) #add it to the list
      
         
-    update_x=sum(np.array(dx_list))/len(dx_list) #net change in x direction
-    update_y=sum(np.array(dy_list))/len(dy_list) #net change in y direction
+    spring_x=sum(np.array(dx_list))/len(dx_list) #net change in x direction
+    spring_y=sum(np.array(dy_list))/len(dy_list) #net change in y direction
     
-    'Applying change '
+    'Force from optical trap'
+    if optical_trap==True: #check if trap is on
+        
+        trap_center=[0,0] #not sure how we will put the trap in a location yet
+        tc_x=trap_center[0] #pulls out the x component
+        tc_y=trap_center[1] #pulls out the y componenet
+        
+        xtrap=tc_x-Bead_center[0] #difference in x
+        ytrap=tc_y-Bead_center[1] #difference in y 
+        
+        
+        update_x=(len(dx_list)*ks*spring_x+ktrap*xtrap)/(len(dx_list)*ks+ktrap) #sets the update offset
+        update_y=(len(dy_list)*ks*spring_y+ktrap*ytrap)/(len(dy_list)*ks+ktrap) #sets the update offset
+        
+    else: 
+        update_x=spring_x
+        update_y=spring_y
+      
+    'Brownian motion'
+        #to be added later
+    
+    
+    
+    'Moves the center of the bead'
+
+    BC_update=[Bead_center[0]+update_x,Bead_center[1]+update_y]#new center of the bead location
+    Bead_center=BC_update #changes the definition of bead_center
+    
+    'Applying change to attachment points'
     for motor in motor_list: #makes sure the attachment points are updated for each motor
     
         x_pos=motor.At[0]+update_x #takes the calcluated change in x and applies it to each motor
         y_pos=motor.At[1]+update_y #takes the calculated change in y and applies it to each motor
         motor.At=[x_pos,y_pos] #changed the attackment point to the new location
         
-    
 
 'Visualization'
 
