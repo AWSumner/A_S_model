@@ -10,17 +10,25 @@ import csv
 import numpy as np 
 import math 
 import os.path 
+<<<<<<< HEAD
 import random
 import time
 
 start_time = time.time() #added a timer because it is fun
+=======
+import csv 
+>>>>>>> parent of d62440d... Add files via upload
 
 'Import my functions '
-from Functions import Stepping_Functions as SF
+from Functions import Step_functions as SF
 from Functions import Dwell as D
+<<<<<<< HEAD
 from Functions import Starting_conditions as SC
 from Functions import Landing_functions as LF
 
+=======
+from Functions import starting_conditions as S_C
+>>>>>>> parent of d62440d... Add files via upload
 
 'File choices'
 Map_name='Test_072820_1.csv' #name of map file
@@ -41,15 +49,22 @@ kf=0.16 #pN/nm: the k value for the torsion force
 ks=0.2 #pN/nm: the k value for the spring
 
 'Class definition'
+<<<<<<< HEAD
 class protien_motor(): #creates a class of motor
     #shared properties in all motors 
     Cm=[0,0]
+=======
+class motor(): 
+    #shared properties in all motors 
+    Al=36 #nm #arm length
+>>>>>>> parent of d62440d... Add files via upload
     
     #unique properties for each instance of motor()
     def __init__(self,Head_1,Head_2,Attachment): 
         self.H1=Head_1 #informations for head 1
         self.H2=Head_2   #information on head 2
         self.At=Attachment #location of the connection to the bead
+<<<<<<< HEAD
     
     
 class MVI(protien_motor): #Myosin VI motor
@@ -60,6 +75,9 @@ class MVI(protien_motor): #Myosin VI motor
     'VVV currently a place holder value!!!! VVV'
     Sl=20 #nm : rest length of spring 
     '^^^ currently a place holder value!!!! ^^^'
+=======
+        
+>>>>>>> parent of d62440d... Add files via upload
 
 'Opening map'
 map_path='./Reference/Maps/' #Path to the map file note: code needs to be run in A_S_model folder (see top right)
@@ -68,8 +86,12 @@ Map_file=os.path.join(map_path,Map_name) #adds the name to the path
 with open(Map_file, newline='') as f:
     reader = csv.reader(f)
     Map = list(reader) #creates an array Map that holds the values for each pixel. 
-    
 
+<<<<<<< HEAD
+=======
+'Conditions creation'
+loc=S_C.Starting_Location(placement_coordinates,Map)
+>>>>>>> parent of d62440d... Add files via upload
 
 'Initial conditions '
 Lstep=MVI.Al #step length
@@ -98,6 +120,7 @@ for i in range(number_of_motors): #creates a motors based on the number given at
 total_time=time*1E3 #converitng the time above in seconds to miliseconds to match our timesteps
 
 
+<<<<<<< HEAD
 for i in range(total_time):
     
     'Motor step section'
@@ -151,6 +174,9 @@ for i in range(total_time):
     
     
     
+=======
+
+>>>>>>> parent of d62440d... Add files via upload
 
 
     'Clean up'
@@ -169,9 +195,21 @@ for i in range(total_time):
 
 
 print('Done')
-print("--- %s seconds ---" % (time.time() - start_time))
-
 'Testing '
 
+<<<<<<< HEAD
 
+=======
+'''
+'See possible imports'
+import pkgutil
+search_path = ['.'] # set to None to see all modules importable from sys.path
+all_modules = [x[1] for x in pkgutil.iter_modules(path=search_path)]
+print(all_modules)
+
+#print(sys.path)
+#x=dir(running) #r.fib(8)
+#print(x)
+'''
+>>>>>>> parent of d62440d... Add files via upload
 

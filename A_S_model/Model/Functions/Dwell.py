@@ -14,5 +14,3 @@ def Dwell_Time():
     
     return(True)
 
-
-

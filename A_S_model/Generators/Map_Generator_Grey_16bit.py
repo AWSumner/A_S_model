@@ -52,8 +52,6 @@ for n in range(0,height):
         
         if val==65535:
             theta=-1 #sets theta to -1 to indicate pixel is not part of the actin network
-        if val==0:
-            theta=2*np.pi #sets all the 0's to 2*pi to remove the presense of 0's on the map to fix problems finding sites
         else:
             theta=c*val #converts grey scale to the theta. 
                
