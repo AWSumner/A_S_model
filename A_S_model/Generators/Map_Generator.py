@@ -38,8 +38,8 @@ height =im.size[1] #y dimension in pixels
 
 
 'Map construction'
-c=0.471204 #this is the conversion constant between the sum of the RGB and the corrisponding angle 
-        # tunes so a maxium sum of RGB munius one (764) produces 360 deg. 
+c=0.008224 #this is the conversion constant between the sum of the RGB and the corrisponding angle 
+        # tunes so a maxium sum of RGB minius one (764) produces 2 pi radians and also represents our resolution  
 
 total_map=[] #reset for total map array
 for n in range(0,height):

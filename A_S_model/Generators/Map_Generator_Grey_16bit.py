@@ -15,11 +15,12 @@ and all other grey scale values are converted by theta=c*greyscale value with c 
 'Imports & functions'
 from PIL import Image #image processing import
 import os.path #used in creation of final path
-
+import numpy as np  
+import csv 
 
 'File selection & naming'
 Image_name='16_Test.png' #name of image to convert to map
-End_name='Test_071020_4' #the final name you want to give the map 'Name_date_version'
+End_name='Test_072820_2' #the final name you want to give the map 'Name_date_version'
 start_path='./Reference/Images/' #path to origional file 
 end_path='./Reference/Maps/' #Final location of the map just in case you want to change it
 'Note: As this file is in Generators one dot take you up one directory to A_S_model. '
@@ -27,7 +28,7 @@ end_path='./Reference/Maps/' #Final location of the map just in case you want to
 
 'Path creation'
 Starting_location=os.path.join(start_path,Image_name) #creates path to image you are converting to a map
-Final_location=os.path.join(end_path,End_name+'.txt') #creates path for saving the final file
+Final_location=os.path.join(end_path,End_name+'.csv') #creates path for saving the final file
 '''This bit of code takes the strings given above and stiches them into paths for the files to 
 save and load.'''
 
@@ -40,29 +41,33 @@ height =im.size[1] #y dimension in pixels
 'Note: pix[x,y] is the RGB value of the pixel at a point (x,y)'
 
 'Map construction'
-c=0.005493 #this is the conversion constant between the grey scale and the corrisponding angle 
-# tuned so a maxium grey scale minus one (254) produces 180 deg. and also represents our resolution 
+c=9.587526E-5 #this is the conversion constant between the grey scale and the corrisponding angle 
+# tuned so a maxium grey scale minus one (65535) produces 2 pi radians and also represents our resolution 
 
-total_map=[] #reset for total map array
+total_map=[]#reset for total map array
 for n in range(0,height):
-    row=[] #reset for the next row
+    row=[]#reset for the next row
     for i in range(0,width):
         val=pix[i,n] #values at point (i,n)
         
         if val==65535:
             theta=-1 #sets theta to -1 to indicate pixel is not part of the actin network
+        if val==0:
+            theta=2*np.pi #sets all the 0's to 2*pi to remove the presense of 0's on the map to fix problems finding sites
         else:
             theta=c*val #converts grey scale to the theta. 
                
-        element=[i,n,theta] #storage of the angle at a specific point
-        row.append(element) #adds the element to the row
+        #element=theta #storage of the angle at a specific point
+        row.append(theta) #adds the element to the row
+        
         
     total_map.append(row) #adds the row to the final array
 
 'Writing to a file'
 
-with open(Final_location, 'x') as file: # the 'x' is what tell open to create the file
-    file.writelines("%s\n" % k for k in total_map) #writes the list into the file
+with open(Final_location, 'w') as file: # the 'w' is what tell open to write the file
     
-    file.close() #closes the file when it is done with it
+    writer = csv.writer(file) 
+    writer.writerows(total_map)  #writes the list into the file
+
 print('Done') 

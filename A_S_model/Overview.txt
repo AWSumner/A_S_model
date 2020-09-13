@@ -26,18 +26,27 @@ Forward: Hello, my name is Sasha Sumner and somehow you have found yourself read
 
 
 Table of Contents: 
-	I: How to use 
-	II: Different folders 
-	III: Tips and tricks 
+	I: units
+	II: How to use 
+	III: Different folders 
+	IV: Tips and tricks 
 
 
-I: How to use 
+I: Units 
+
+All distances are in units of nanometers 
+
+
+
+
+
+II: How to use 
 	
 
 
 
 
-II: Different folders and their purpose 
+III: Different folders and their purpose 
 
 	i) A_S_model: that main folder that contains the rest of the program 
 
