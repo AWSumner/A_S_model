@@ -97,7 +97,7 @@ loc=S_C.Starting_Location(placement_coordinates,Map)
 Lstep=MVI.Al #step length
 Lspring=MVI.Sl#rest length of spring
 Heads=SC.Heads_Placement(placement_coordinates,Map,Lstep,error) #decides the location of the two starting head locations
-Bead_attachments=SC.Bead_Placement(Heads[0], Heads[1], number_of_motors, radial_placement,bead_radius, Lspring, Lstep)[0] #creates the list of bead attachment points
+Bead_attachments=SC.Bead_Placement(Heads[0], Heads[1], number_of_motors, radial_placement,bead_radius, Lspring, Lstep) #creates the list of bead attachment points
 
 
 
