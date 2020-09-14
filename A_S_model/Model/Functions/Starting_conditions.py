@@ -68,6 +68,7 @@ def Bead_Placement(H1,H2,Number_of_Motors,Radial_Placment,r,Lspring,Lstep):
     px=CM[0]+Lspring*math.sin(theta)
     py=CM[1]-Lspring*math.cos(theta)
     origin=[px,py]
+    bead_center=[px+r*np.sin(theta),py+r*np.cos(theta)]
     #print(point)
     
     'Creating placements'
@@ -84,7 +85,7 @@ def Bead_Placement(H1,H2,Number_of_Motors,Radial_Placment,r,Lspring,Lstep):
        attachment_list.append(location)
           
     
-    return(attachment_list,phi)
+    return(attachment_list,phi,bead_center)
 
 
 'VVV Still needs work VVV'

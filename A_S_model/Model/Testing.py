@@ -12,6 +12,7 @@ import math
 import random
 from Functions import Stepping_Functions as SF
 from Functions import Starting_conditions as SC 
+from Functions import Landing_functions as LF
 
 size=2000
 print(size)
@@ -123,27 +124,36 @@ print("--- %s seconds ---" % (time.time() - new_time3))
 '''
 
 'Class definition'
-class motor(): #creates a class of motor
+class protien_motor(): #creates a class of motor
     #shared properties in all motors 
-    
+    Cm=[0,0]
     
     #unique properties for each instance of motor()
     def __init__(self,Head_1,Head_2,Attachment): 
-        self.H1=Head_1 #informations for head 1
-        self.H2=Head_2   #information on head 2
-        self.At=Attachment #location of the connection to the bead
+        self.H1=Head_1 #informations for head 1 (array)
+        self.H2=Head_2   #information on head 2 (array)
+        self.At=Attachment #location of the connection to the bead (array)
     
     
-class MVI(motor): #Myosin VI motor
-    '''Makes a class that inherets motors and can have additional properies that are unique to myosin VI
-        This extension will allow for possible expansion to different motors 
+class MVI(protien_motor): #Myosin VI motor
+    '''Makes a class that inherets from protien motor 
+       and can have additional properies that are unique to myosin VI
     '''  
     Al=36 #nm :arm length
-    SP=20 #nm : rest length of spring
+    kf=0.16 #pN/nm: the k value for the torsion force
+    ks=0.2  #pN/nm: the k value for the spring
+    'VVV currently a place holder value!!!! VVV'
+    Sl=20 #nm : rest length of spring 
+    '^^^ currently a place holder value!!!! ^^^'
+
+'Physical constants'
+kf=MVI.kf #0.16 pN/nm: the k value for the torsion force
+ks=MVI.ks #0.2  #pN/nm: the k value for the spring
+ktrap=0.02 #pN/nm: the k value for the optical trap
     
-
-
-Map=[[0,0,0,0,0,0],[0,0,1,0,0,0],[0,0,0,0,0,0],[0,0,1,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]
+print(kf,ks)
+'''
+Map=np.array([[random.uniform(0,2*np.pi) for q in range(size)] for r in range(size)])
 #print(Map[1][2])
 
 
@@ -161,9 +171,41 @@ M.H2=mass
 
 k=np.array([[1,2],[3,4],[1,1]])
 j=np.append([0,1],k)
-print(j) 
+#print(j) 
 
+print('start')
+motor=MVI([0,1],[36,1],[0,0])
+D=True
+error=0
+new_time3 = time.time()
+if D:      
+            locations=SF.Step(Map,motor.H1,motor.Al,error)
+            Potentials=[]
+            kf=0.16 #pN/nm: the k value for the torsion force
+            ks=0.2 #pN/nm: the k value for the spring
+            for item in locations:
+                'Center of mass '
+                CMX=(motor.H1[0]+item[0])/2,
+                CMY=(motor.H1[1]+item[1])/2
+                motor.Cm=[CMX,CMY] 
+                'Theta section'
+                theta_CM=SF.Angle_Calc(motor.H1,item,motor.Al)
+                theta_H1=Map[motor.H1[1]][motor.H1[0]]
+                theta_H2=Map[item[1]][item[0]]
+                
+                dtheta_H1=abs((theta_CM)-(theta_H1))
+                dtheta_H2=abs((theta_CM)-(theta_H2))
+                
+                'Potentials'
+                Pt=LF.MIV_Potential(dtheta_H1, dtheta_H2, motor.Cm, motor.At,kf,ks)
+                Potentials.append(Pt)
+            
+            motor.H2=LF.Landing_probability(locations, Potentials)
+            
 
+print("--- %s seconds ---" % (time.time() - new_time3))
+
+'''
 
 
 

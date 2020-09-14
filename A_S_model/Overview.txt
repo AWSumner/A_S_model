@@ -1,4 +1,4 @@
-Overview of the Altman-Sumner Myosin transport model started Summer 2020 
+Overview of the Altman-Sumner Myosin computational model started Summer 2020 
 Last updated on:07/09/2020 (Well the overview at least) 
 Current version 0.1 (07/09/2020)
 
@@ -7,9 +7,6 @@ Run on Spyder version: 4.0.1 with the A_S_model folder as end of run path.
 
 Overview: 
 This code is produced by David Altman's Biophysics lab at Willamette University 
-
-
-
 
 List of past/present users: 
 	David Altman 
@@ -29,15 +26,10 @@ Forward: Hello, my name is Sasha Sumner and somehow you have found yourself read
 
 
 Table of Contents: 
-	0:Overview
 	I: units
 	II: How to use 
 	III: Different folders 
-	IV: Common issues
-
-0:Overview 
-This bit of code is written so that given a "map" of an actin network it will be able place a bead with a given number of motors on the map then model how it will walk around and "transport" the bead through space. 
-
+	IV: Tips and tricks 
 
 
 I: Units 
